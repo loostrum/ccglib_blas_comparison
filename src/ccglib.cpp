@@ -40,7 +40,7 @@ int main() {
 
   ccglib::transpose::Transpose transpose_a(params.B, params.M, params.K, dims.x, dims.z, 
                                            ccglib::ValuePrecision{ccglib::float16}.GetBitWidth(), device, stream,
-                                           ccglib::transpose::complex_middle);
+                                           ccglib::transpose::complex_last);
 
   ccglib::transpose::Transpose transpose_b(params.B, params.N, params.K, dims.y, dims.z, 
                                            ccglib::ValuePrecision{ccglib::float16}.GetBitWidth(), device, stream,

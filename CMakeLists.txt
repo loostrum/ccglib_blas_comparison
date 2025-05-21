@@ -18,6 +18,14 @@ set(CCGLIB_BACKEND
 set_property(CACHE CCGLIB_BACKEND PROPERTY STRINGS "CUDA" "HIP")
 set(CUDAWRAPPERS_BACKEND ${CCGLIB_BACKEND})
 
+
+if(${CCGLIB_BACKEND} STREQUAL "HIP")
+  enable_language(HIP)
+else()
+  enable_language(CUDA)
+  find_package(CUDAToolkit REQUIRED)
+endif()
+
 # fetch cudawrappers and ccglib
 include(FetchContent)
 FetchContent_Declare(
@@ -29,7 +37,7 @@ FetchContent_MakeAvailable(cudawrappers)
 FetchContent_Declare(
   ccglib
   GIT_REPOSITORY https://git.astron.nl/RD/recruit/ccglib
-  GIT_TAG "main")
+  GIT_TAG "remove_unused_arg")
 FetchContent_MakeAvailable(ccglib)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -41,4 +49,8 @@ target_include_directories(benchmark_ccglib PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
 if(${CCGLIB_BACKEND} STREQUAL "HIP")
   set_source_files_properties(src/benchmark_ccglib.cpp PROPERTIES LANGUAGE HIP)
+else()
+  add_executable(benchmark_cublas src/cublas.cu)
+  target_link_libraries(benchmark_cublas cublas ccglib)
+  target_include_directories(benchmark_cublas PUBLIC ${CMAKE_SOURCE_DIR}/include)
 endif()

@@ -11,6 +11,10 @@ So cublas doesn't support the operations we want: half to float complex, or 1-bi
 
 `cuBlasLt` is the lightweight cuBlas focused on performant GEMMs. This interface does support the typing we want. The example in this repo uses the `cuBlasLt` interface. Even though the compute type is set to `float`, `ncu` shows that the half-precision tensor cores are used. It is not yet clear to me if any type casting happens.
 
+## rocBlas
+Like cuBlas, The rocblas level 3 functions required all matrices to have the same type. The available types are `float`, `double`, `half`, `complex float`, `complex double`. 
+The `rocblas_gemm_ex` extension has more options, but no reduced precision complex types. There are beta functions in rocblas, but only for `float8`. Hence, `half` complex does not seem to be possible. The real `half` to `half` version is run to get at least a rough idea of the performance. 
+
 ## Results
 Performance for `half` to `float` planar complex, batch size 1, matrices all 8192 by 8192 elements:
 
@@ -31,4 +35,7 @@ ccglib:
 Runtime: 1.34144 ms (transpose) + 29.5012 ms (GEMM) = 30.8427 ms (total)
 TFLOPS: 149.08 (GEMM only), 142.596 (total)
 
+rocblas (real half to real half):
+Runtime: 23.5486 ms
+TFLOPS: 46.6912
 ```

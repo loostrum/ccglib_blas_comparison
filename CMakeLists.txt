@@ -48,9 +48,16 @@ target_include_directories(benchmark_ccglib PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
 if(${CCGLIB_BACKEND} STREQUAL "HIP")
   set_source_files_properties(src/benchmark_ccglib.cpp PROPERTIES LANGUAGE HIP)
+  set_source_files_properties(src/benchmark_rocblas.cpp PROPERTIES LANGUAGE HIP)
+  set_source_files_properties(src/benchmark_hipblas.cpp PROPERTIES LANGUAGE HIP)
+
   add_executable(benchmark_rocblas src/rocblas.cpp)
   target_link_libraries(benchmark_rocblas rocblas ccglib)
   target_include_directories(benchmark_rocblas PUBLIC ${CMAKE_SOURCE_DIR}/include)
+
+  add_executable(benchmark_hipblas src/hipblas.cpp)
+  target_link_libraries(benchmark_hipblas hipblaslt hipblas ccglib)
+  target_include_directories(benchmark_hipblas PUBLIC ${CMAKE_SOURCE_DIR}/include)
 else()
   add_executable(benchmark_cublas src/cublas.cu)
   target_link_libraries(benchmark_cublas cublasLt ccglib)

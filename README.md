@@ -39,4 +39,6 @@ TFLOPS: 149.08 (GEMM only), 142.596 (total)
 rocblas (real half to real half):
 Runtime: 23.5486 ms
 TFLOPS: 46.6912
+
+# hipblas does use matrix cores, highly utilized, but calculated performance is low. Perhaps doing multiple MFMA ops to restore F32 precision?
 ```

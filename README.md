@@ -14,6 +14,7 @@ So cublas doesn't support the operations we want: half to float complex, or 1-bi
 ## Results
 Performance for `half` to `float` planar complex, batch size 1, matrices all 8192 by 8192 elements:
 
+NVIDIA A100:
 ```
 ccglib:
 Runtime: 1.68474 ms (transpose) + 36.7135 ms (GEMM) = 38.3982 ms (total)
@@ -22,4 +23,12 @@ TFLOPS: 119.794 (GEMM only), 114.538 (total)
 cublas:
 Runtime: 37.5798 ms
 TFLOPS: 117.032
+```
+
+AMD MI210:
+```
+ccglib:
+Runtime: 1.34144 ms (transpose) + 29.5012 ms (GEMM) = 30.8427 ms (total)
+TFLOPS: 149.08 (GEMM only), 142.596 (total)
+
 ```

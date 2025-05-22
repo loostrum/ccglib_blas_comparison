@@ -35,6 +35,7 @@ ccglib:
 Runtime: 1.34144 ms (transpose) + 29.5012 ms (GEMM) = 30.8427 ms (total)
 TFLOPS: 149.08 (GEMM only), 142.596 (total)
 
+# TODO, this does not use the matrix cores according to rocprofiler-compute
 rocblas (real half to real half):
 Runtime: 23.5486 ms
 TFLOPS: 46.6912

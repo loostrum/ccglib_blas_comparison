@@ -1,6 +1,7 @@
 #include <iostream>
 #include <complex>
 
+#include <hipblas/hipblas.h>
 #include <hipblaslt/hipblaslt.h>
 #include <hip/hip_runtime.h>
 

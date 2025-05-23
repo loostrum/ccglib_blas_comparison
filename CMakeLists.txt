@@ -47,9 +47,9 @@ target_link_libraries(benchmark_ccglib PUBLIC ccglib)
 target_include_directories(benchmark_ccglib PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
 if(${CCGLIB_BACKEND} STREQUAL "HIP")
-  set_source_files_properties(src/benchmark_ccglib.cpp PROPERTIES LANGUAGE HIP)
-  set_source_files_properties(src/benchmark_rocblas.cpp PROPERTIES LANGUAGE HIP)
-  set_source_files_properties(src/benchmark_hipblas.cpp PROPERTIES LANGUAGE HIP)
+  set_source_files_properties(src/ccglib.cpp PROPERTIES LANGUAGE HIP)
+  set_source_files_properties(src/rocblas.cpp PROPERTIES LANGUAGE HIP)
+  set_source_files_properties(src/hipblas.cpp PROPERTIES LANGUAGE HIP)
 
   add_executable(benchmark_rocblas src/rocblas.cpp)
   target_link_libraries(benchmark_rocblas rocblas ccglib)

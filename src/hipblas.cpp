@@ -70,34 +70,59 @@ int main() {
 
 
   // launch
+  // warmup
+  for (int i=0; i < 5; i++) {
+    hipblas_check(hipblasLtMatmul(handle,
+                                desc,
+                                &alpha,
+                                d_a,
+                                layout_a,
+                                d_b,
+                                layout_b,
+                                &beta,
+                                d_c,
+                                layout_c,
+                                d_c,
+                                layout_c,
+                                NULL, // algo
+                                NULL, // workspace
+                                0, // workspace size in bytes
+                                0 // stream
+                                ));
+  }
+
   hipEvent_t start, end;
   hip_check(hipEventCreate(&start));
   hip_check(hipEventCreate(&end));
 
+  const int nrun = 10;
   hip_check(hipEventRecord(start));
-  hipblas_check(hipblasLtMatmul(handle,
-                              desc,
-                              &alpha,
-                              d_a,
-                              layout_a,
-                              d_b,
-                              layout_b,
-                              &beta,
-                              d_c,
-                              layout_c,
-                              d_c,
-                              layout_c,
-                              NULL, // algo
-                              NULL, // workspace
-                              0, // workspace size in bytes
-                              0 // stream
-                              ));
+  for (int i=0; i < nrun; i++) {
+    hipblas_check(hipblasLtMatmul(handle,
+                                desc,
+                                &alpha,
+                                d_a,
+                                layout_a,
+                                d_b,
+                                layout_b,
+                                &beta,
+                                d_c,
+                                layout_c,
+                                d_c,
+                                layout_c,
+                                NULL, // algo
+                                NULL, // workspace
+                                0, // workspace size in bytes
+                                0 // stream
+                                ));
+  }
   hip_check(hipEventRecord(end));
   hip_check(hipEventSynchronize(end));
   hip_check(hipDeviceSynchronize());
 
   float runtime;
   hip_check(hipEventElapsedTime(&runtime, start, end));
+  runtime /= nrun;
   const double tflops = 2ULL * 1e-9 * params.M * params.N * params.K / runtime;
 
   std::cout << "Runtime: " << runtime << " ms" << std::endl;

@@ -90,6 +90,7 @@ int main() {
                                 0 // stream
                                 ));
   }
+  hip_check(hipDeviceSynchronize());
 
   hipEvent_t start, end;
   hip_check(hipEventCreate(&start));
